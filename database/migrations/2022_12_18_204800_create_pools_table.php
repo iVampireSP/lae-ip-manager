@@ -37,6 +37,9 @@ return new class extends Migration
             // pool_id
             $table->unsignedBigInteger('pool_id')->nullable()->index();
 
+            // region_id
+            $table->unsignedBigInteger('region_id')->nullable()->index();
+
 
             $table->timestamps();
         });

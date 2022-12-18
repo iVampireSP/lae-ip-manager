@@ -25,4 +25,19 @@ class Pool extends Model
         'nameservers' => 'array',
         'price' => 'decimal:2',
     ];
+
+    public function parent()
+    {
+        return $this->belongsTo(Pool::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Pool::class, 'parent_id');
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
 }
