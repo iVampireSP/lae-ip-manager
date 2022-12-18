@@ -18,7 +18,16 @@
             @foreach ($ips as $ip)
                 <tr>
                     <td>{{ $ip->id }}</td>
-                    <td>{{ $ip->ip }}</td>
+                    <td>
+                        {{ $ip->ip }}
+                        <br />
+                        @if ($ip->blocked)
+                            <span class="badge bg-danger">冻结</span>
+                        @endif
+                        @if ($ip->host_id)
+                            <span class="badge bg-success">已分配</span>
+                        @endif
+                    </td>
                     <td>{{ $ip->pool->pool }}</td>
                     <td>{{ $ip->hostname }}</td>
                     <td>{{ $ip->price ?? $ip->pool->price }}</td>
