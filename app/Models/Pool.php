@@ -11,13 +11,15 @@ class Pool extends Model
 
     protected $fillable = [
         'pool',
-        'mask',
+        'netmask',
+        'cidr',
         'type',
         'gateway',
         'nameservers',
         'description',
         'parent_id',
         'price',
+
     ];
 
 
@@ -39,5 +41,10 @@ class Pool extends Model
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+
+    public function ips()
+    {
+        return $this->hasMany(Ip::class);
     }
 }

@@ -17,7 +17,11 @@ return new class extends Migration
             $table->id();
 
             $table->string('ip')->index()->nullable();
-            $table->decimal('ip_v6', 39, 0)->index()->nullable();
+
+            // $table->string('netmask')->index()->nullable();
+            // $table->unsignedBigInteger('cidr')->index()->nullable();
+
+            // $table->enum('type', ['ipv4', 'ipv6', 'ipv6block', 'ipv4block']);
 
             // pool_id
             $table->unsignedBigInteger('pool_id')->nullable();
@@ -31,6 +35,11 @@ return new class extends Migration
             $table->string('description')->nullable();
 
             $table->decimal('price', 10, 2)->nullable();
+
+            $table->boolean('blocked')->default(false)->index();
+
+            // position
+            $table->unsignedBigInteger('position')->index();
 
 
             $table->timestamps();

@@ -1,44 +1,40 @@
 <x-app-layout>
     <h3>地址池</h3>
 
-    <p>总计: {{ $count }}</p>
+    <a href="{{ route('pools.create') }}">新建地址池</a>
+
 
     <table class="table table-hover">
         <thead>
-        <tr>
-            <th>ID</th>
-            <th>名称</th>
-            <th>客户</th>
-            <th>每 5 分钟扣费</th>
-            <th>状态</th>
-            <th>创建时间</th>
-            <th>更新时间</th>
-            <th>操作</th>
-        </tr>
+            <tr>
+                <th>ID</th>
+                <th>网段</th>
+                <th>子网掩码</th>
+                <th>版本</th>
+                <th>继承价格</th>
+                <th>操作</th>
+            </tr>
         </thead>
 
 
         <tbody>
-        @foreach ($hosts as $host)
-            <tr>
-                <td>{{ $host->id }}</td>
-                <td>{{ $host->name }}</td>
-                <td><a href="{{ route('users.show', $host->user_id) }}">{{ $host->user->name }}</a></td>
-                <td>{{ $host->price }}</td>
-                <td>
-                    <x-host-status :status="$host->status"/>
-                </td>
-                <td>{{ $host->created_at }}</td>
-                <td>{{ $host->updated_at }}</td>
-                <td>
-                    <a href="{{ route('hosts.show', $host->id) }}">编辑</a>
-                </td>
+            @foreach ($pools as $pool)
+                <tr>
+                    <td>{{ $pool->id }}</td>
+                    <td>{{ $pool->pool }}</td>
+                    <td>{{ $pool->netmask }}</td>
+                    <td>{{ $pool->type }}</td>
+                    <td>{{ $pool->price ?? 0 }} 元</td>
+                    <td>
+                        <a href="{{ route('pools.edit', $pool->id) }}">编辑</a>
+                        <a href="{{ route('pools.show', $pool->id) }}">IP 列表</a>
+                        <a href="{{ route('pools.generate', $pool->id) }}">生成</a>
 
-            </tr>
-        @endforeach
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 
 
-    {{ $hosts->links() }}
 </x-app-layout>

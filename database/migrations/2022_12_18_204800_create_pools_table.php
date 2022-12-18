@@ -18,7 +18,8 @@ return new class extends Migration
 
             $table->string('pool')->index();
 
-            $table->tinyInteger('mask')->index();
+            $table->string('netmask')->index();
+            $table->tinyInteger('cidr')->index();
 
             $table->enum('type', ['ipv4', 'ipv6', 'ipv6block', 'ipv4block']);
 
@@ -41,6 +42,7 @@ return new class extends Migration
             $table->unsignedBigInteger('region_id')->nullable()->index();
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('set null');
 
+            $table->unsignedBigInteger('position')->index()->default(0);
 
             $table->timestamps();
         });

@@ -31,7 +31,14 @@ Route::group(['middleware' => 'auth:web'], function () {
     Route::resource('work-orders.replies', ReplyController::class);
 
     Route::resource('regions', RegionController::class)->except(['show']);
+
     Route::resource('pools', PoolController::class);
+    Route::get('pools/{pool}/generate', [
+        PoolController::class,
+        'show_generate'
+    ])->name('pools.generate');
+    Route::post('pools/{pool}/generate', [PoolController::class, 'run_generate'])->name('pools.generate');
+
     Route::resource('ips', IpController::class);
 
 

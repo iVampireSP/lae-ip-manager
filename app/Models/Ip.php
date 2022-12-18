@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use PhpIP\IP as PhpIPIP;
 
 class Ip extends Model
 {
@@ -11,17 +12,21 @@ class Ip extends Model
 
     protected $fillable = [
         'ip',
-        'ip_v6',
         'pool_id',
         'mac',
         'hostname',
         'description',
         'price',
+        'position',
+        'blocked',
+        'netmask',
+        'cidr'
     ];
 
     // casts of price
     protected $casts = [
         'price' => 'decimal:2',
+
     ];
 
 

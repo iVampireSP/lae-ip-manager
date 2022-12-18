@@ -12,9 +12,20 @@ class IpController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $ip = Ip::query();
+
+        // 根据任意字段搜索
+        foreach ($request->all() as $field) {
+            if ($request->has($field)) {
+                $ip->where($field, 'like', '%' . $request->input($field) . '%');
+            }
+        }
+
+        $ips = $ip->with('pool')->paginate(100);
+
+        return view('ips.index', compact('ips'));
     }
 
     /**
