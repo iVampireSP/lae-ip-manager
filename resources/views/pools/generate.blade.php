@@ -9,7 +9,7 @@
         <br />
         最大数量: {{ $pool->max() }}
         <br />
-        当前位数: {{ $pool->position }}
+        当前位置: {{ $pool->position }}
     </p>
 
     <form action="{{ route('pools.generate', $pool->id) }}" method="post">
