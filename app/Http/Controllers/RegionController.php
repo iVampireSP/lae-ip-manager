@@ -14,7 +14,9 @@ class RegionController extends Controller
      */
     public function index()
     {
-        //
+        $regions = Region::all();
+
+        return view('regions.index', compact('regions'));
     }
 
     /**
@@ -25,6 +27,8 @@ class RegionController extends Controller
     public function create()
     {
         //
+
+        return view('regions.create');
     }
 
     /**
@@ -36,17 +40,17 @@ class RegionController extends Controller
     public function store(Request $request)
     {
         //
-    }
+        $request->validate([
+            'name' => 'required|string',
+            'code' => 'required|string|unique:regions,code',
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Region  $region
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Region $region)
-    {
-        //
+        Region::create([
+            'name' => $request->name,
+            'code' => $request->code,
+        ]);
+
+        return redirect()->route('regions.index')->with('success', '区域创建成功。');
     }
 
     /**
@@ -58,6 +62,7 @@ class RegionController extends Controller
     public function edit(Region $region)
     {
         //
+        return view('regions.edit', compact('region'));
     }
 
     /**
@@ -70,6 +75,18 @@ class RegionController extends Controller
     public function update(Request $request, Region $region)
     {
         //
+
+        $request->validate([
+            'name' => 'required|string',
+            'code' => 'required|string|unique:regions,code,' . $region->id,
+        ]);
+
+        $region->update([
+            'name' => $request->name,
+            'code' => $request->code,
+        ]);
+
+        return redirect()->back()->with('success', '区域更新成功。');
     }
 
     /**
@@ -81,5 +98,9 @@ class RegionController extends Controller
     public function destroy(Region $region)
     {
         //
+
+        $region->delete();
+
+        return redirect()->route('regions.index')->with('success', '区域删除成功。');
     }
 }

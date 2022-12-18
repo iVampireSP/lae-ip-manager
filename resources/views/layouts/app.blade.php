@@ -47,11 +47,6 @@
                             {{-- <li class="nav-item">
                             <a class="nav-link text-auto" href="{{ route('servers.index') }}">服务器</a>
                         </li> --}}
-
-                            <li class="nav-item">
-                                <a class="nav-link text-auto" href="{{ route('locations.index') }}">地区</a>
-                            </li>
-
                             <li class="nav-item">
                                 <a class="nav-link text-auto" href="{{ route('regions.index') }}">可用区</a>
                             </li>

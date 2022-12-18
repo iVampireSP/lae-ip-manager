@@ -37,8 +37,9 @@ return new class extends Migration
             // pool_id
             $table->unsignedBigInteger('pool_id')->nullable()->index();
 
-            // region_id
+            // region_id foreign
             $table->unsignedBigInteger('region_id')->nullable()->index();
+            $table->foreign('region_id')->references('id')->on('regions')->onDelete('set null');
 
 
             $table->timestamps();

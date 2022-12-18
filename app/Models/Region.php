@@ -12,6 +12,5 @@ class Region extends Model
     protected $fillable = [
         'name',
         'code',
-        'location_id'
     ];
 }

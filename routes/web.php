@@ -30,9 +30,7 @@ Route::group(['middleware' => 'auth:web'], function () {
     Route::resource('work-orders', WorkOrderController::class);
     Route::resource('work-orders.replies', ReplyController::class);
 
-
-    Route::resource('locations', LocationController::class);
-    Route::resource('regions', RegionController::class);
+    Route::resource('regions', RegionController::class)->except(['show']);
     Route::resource('pools', PoolController::class);
     Route::resource('ips', IpController::class);
 

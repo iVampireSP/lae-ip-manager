@@ -18,9 +18,8 @@ return new class extends Migration
 
             $table->string('name')->index()->unique();
 
-            // location
-            $table->unsignedBigInteger('location_id')->nullable();
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('set null');
+            // 地区代码
+            $table->string('code')->index()->unique();
 
             $table->timestamps();
         });
