@@ -76,7 +76,7 @@ class GenerateIpJob implements ShouldQueue
 
 
             // log 当前 ip
-            Log::info('当前生成的 IP 为：' . $ip);
+            // Log::info('当前生成的 IP 为：' . $ip);
 
 
             // 如果是前 3 个 IP，就设置为不可用

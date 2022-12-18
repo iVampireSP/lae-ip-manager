@@ -208,6 +208,6 @@ class PoolController extends Controller
 
         dispatch(new GenerateIpJob($pool, $request->count));
 
-        return redirect()->route('ips.index')->with('success', "正在后台生成 {$request->count} 个 IP 地址，请稍后刷新页面。");
+        return redirect()->route('ips.index')->with('success', "正在后台生成 {$request->count} 个 在此子网内的 IP 地址。");
     }
 }

@@ -1,7 +1,17 @@
 <x-app-layout>
     <h3>IP 地址生成器</h3>
+    <p>在当前子网中生成指定数量的 IP 地址。</p>
 
-    {{-- 输入地址数量 --}}
+
+    <h5>子网信息</h3>
+    <p>
+        地址: {{ $pool->pool }}
+        <br />
+        最大数量: {{ $pool->max() }}
+        <br />
+        当前位数: {{ $pool->position }}
+    </p>
+
     <form action="{{ route('pools.generate', $pool->id) }}" method="post">
         @csrf
 

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use PhpIP\IPBlock;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pool extends Model
 {
@@ -19,7 +20,6 @@ class Pool extends Model
         'description',
         'parent_id',
         'price',
-
     ];
 
 
@@ -46,5 +46,10 @@ class Pool extends Model
     public function ips()
     {
         return $this->hasMany(Ip::class);
+    }
+
+    public function max() {
+        $block = IPBlock::create($this->pool);
+        return $block->getNbAddresses();
     }
 }
