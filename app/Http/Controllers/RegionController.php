@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pool;
+use App\Models\Region;
 use Illuminate\Http\Request;
 
-class PoolController extends Controller
+class RegionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class PoolController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pool  $pool
+     * @param  \App\Models\Region  $region
      * @return \Illuminate\Http\Response
      */
-    public function show(Pool $pool)
+    public function show(Region $region)
     {
         //
     }
@@ -52,10 +52,10 @@ class PoolController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pool  $pool
+     * @param  \App\Models\Region  $region
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pool $pool)
+    public function edit(Region $region)
     {
         //
     }
@@ -64,10 +64,10 @@ class PoolController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pool  $pool
+     * @param  \App\Models\Region  $region
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pool $pool)
+    public function update(Request $request, Region $region)
     {
         //
     }
@@ -75,10 +75,10 @@ class PoolController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pool  $pool
+     * @param  \App\Models\Region  $region
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pool $pool)
+    public function destroy(Region $region)
     {
         //
     }

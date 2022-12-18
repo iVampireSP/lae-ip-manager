@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pool;
+use App\Models\Ip;
 use Illuminate\Http\Request;
 
-class PoolController extends Controller
+class IpController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class PoolController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pool  $pool
+     * @param  \App\Models\Ip  $ip
      * @return \Illuminate\Http\Response
      */
-    public function show(Pool $pool)
+    public function show(Ip $ip)
     {
         //
     }
@@ -52,10 +52,10 @@ class PoolController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pool  $pool
+     * @param  \App\Models\Ip  $ip
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pool $pool)
+    public function edit(Ip $ip)
     {
         //
     }
@@ -64,10 +64,10 @@ class PoolController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pool  $pool
+     * @param  \App\Models\Ip  $ip
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pool $pool)
+    public function update(Request $request, Ip $ip)
     {
         //
     }
@@ -75,10 +75,10 @@ class PoolController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pool  $pool
+     * @param  \App\Models\Ip  $ip
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pool $pool)
+    public function destroy(Ip $ip)
     {
         //
     }
