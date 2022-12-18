@@ -17,9 +17,12 @@ class Pool extends Model
         'nameservers',
         'description',
         'parent_id',
+        'price',
     ];
+
 
     protected $casts = [
         'nameservers' => 'array',
+        'price' => 'decimal:2',
     ];
 }

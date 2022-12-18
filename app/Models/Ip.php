@@ -16,7 +16,14 @@ class Ip extends Model
         'mac',
         'hostname',
         'description',
+        'price',
     ];
+
+    // casts of price
+    protected $casts = [
+        'price' => 'decimal:2',
+    ];
+
 
     public function pool()
     {
