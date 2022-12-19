@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ip;
+use App\Actions\HostAction;
 use Illuminate\Http\Request;
+use App\Exceptions\HostActionException;
+use App\Http\Controllers\Remote\HostController;
 
 class IpController extends Controller
 {
@@ -66,6 +69,21 @@ class IpController extends Controller
      */
     public function destroy(Ip $ip)
     {
-        //
+        if (!$ip->host_id) {
+            return redirect()->back()->with('error', 'IP 地址未绑定主机。');
+        }
+
+        $ip->load('host');
+
+        // 具体删除逻辑
+        $hostAction = new HostAction();
+
+        try {
+            $hostAction->destroy($ip->host);
+        } catch (HostActionException $e) {
+            $this->error($e->getMessage());
+        }
+
+        return redirect()->back()->with('success', '正在解绑 IP 地址。');
     }
 }

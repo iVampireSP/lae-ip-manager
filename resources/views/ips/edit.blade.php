@@ -27,8 +27,7 @@
 
         <div class="mb-3">
             <label for="price" class="form-label">价格</label>
-            <input type="text" class="form-control" id="price" name="price"
-                value="{{ $ip->price }}">
+            <input type="text" class="form-control" id="price" name="price" value="{{ $ip->price }}">
         </div>
 
 
@@ -43,5 +42,13 @@
         <button type="submit" class="btn btn-primary">更新</button>
     </form>
 
+    <hr />
+
+    <form action="{{ route('ips.destroy', $ip->id) }}" method="post">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">解除绑定</button>
+
+    </form>
 
 </x-app-layout>

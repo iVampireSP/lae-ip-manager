@@ -35,4 +35,10 @@ class Ip extends Model
     {
         return $value ? gmp_strval($value, 16) : null;
     }
+
+    // host
+    public function host()
+    {
+        return $this->belongsTo(Host::class);
+    }
 }

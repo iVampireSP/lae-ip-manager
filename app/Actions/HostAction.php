@@ -2,10 +2,11 @@
 
 namespace App\Actions;
 
-use App\Exceptions\HostActionException;
-use App\Models\Host;
 use App\Models\Ip;
+use App\Models\Host;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use App\Exceptions\HostActionException;
 
 /**
  * 这里是主机的操作，你可以在这里写任何你想要的操作。
@@ -69,9 +70,13 @@ class HostAction extends Action
 
         $host->load('ip');
 
-        // 检测 IP 是否被分配
         if ($host->ip->module_id) {
-            throw new HostActionException('此 IP 地址已被分配，需要到对应模块解除绑定后才能删除。');
+            try {
+                $this->http->delete("/modules/{$host->ip->module_id}/ips/{$host->host_id}")->json();
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+                throw new HostActionException('对端未能及时释放 IP 地址，无法删除。');
+            }
         }
 
         // 解除 IP 绑定
@@ -93,18 +98,19 @@ class HostAction extends Action
      */
     public function running(Host $host)
     {
-        Log::info('正在开机...');
+        // Log::info('正在开机...');
         // 启动此主机，比如启动虚拟机，启动数据库等等。
     }
 
     public function stopped(Host $host)
     {
         // 关闭此主机，比如关闭虚拟机，关闭数据库等等。
+        $this->destroy($host);
     }
 
     public function suspended(Host $host)
     {
-        // 暂停此主机，比如暂停虚拟机，暂停数据库等等。当然，你也可以停止此主机。
+        $this->destroy($host);
     }
 
     // 这个状态一般不用操作。
