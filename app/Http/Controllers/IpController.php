@@ -23,7 +23,7 @@ class IpController extends Controller
             }
         }
 
-        $ips = $ip->with('pool')->paginate(100);
+        $ips = $ip->with('pool')->paginate(100)->withQueryString();
 
         return view('ips.index', compact('ips'));
     }

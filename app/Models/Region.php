@@ -13,4 +13,9 @@ class Region extends Model
         'name',
         'code',
     ];
+
+    public function pools()
+    {
+        return $this->hasMany(Pool::class);
+    }
 }

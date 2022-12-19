@@ -20,6 +20,10 @@ class HostController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'pool_id' => 'required|integer|exists:pools,id',
+        ]);
+
         $hostAction = new HostAction();
 
         $host = $hostAction->create($request->all());

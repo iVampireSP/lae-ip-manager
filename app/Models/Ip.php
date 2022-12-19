@@ -21,7 +21,8 @@ class Ip extends Model
         'netmask',
         'cidr',
         'module_id',
-        'host_id',
+        'module_host_id',
+        'host_id'
     ];
 
     public function pool()

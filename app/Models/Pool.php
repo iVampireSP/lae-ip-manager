@@ -20,6 +20,7 @@ class Pool extends Model
         'description',
         'parent_id',
         'price',
+        'region_id'
     ];
 
 

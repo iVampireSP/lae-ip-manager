@@ -152,6 +152,10 @@ class Host extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function ip() {
+        return $this->hasOne(Ip::class);
+    }
+
     public function workOrders()
     {
         return $this->hasMany(WorkOrder::class);

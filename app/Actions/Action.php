@@ -69,7 +69,7 @@ class Action
         }
     }
 
-    protected function updateTask($task_id, $title = null, $status = null, $progress = null)
+    public function updateTask($task_id, $title = null, $status = null, $progress = null)
     {
         $append = [];
 

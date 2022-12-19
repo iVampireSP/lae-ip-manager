@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Exceptions\HostActionException;
 use App\Models\Host;
+use App\Models\Ip;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -19,38 +20,37 @@ class HostAction extends Action
 
     public function create(array $requests)
     {
+
+        $pool_id = $requests['pool_id'];
+
+        // 寻找可用的 IP
+        $ip = Ip::where('pool_id', $pool_id)
+            ->whereNull('host_id')
+            ->where('blocked', 0)
+            ->with('pool')
+            ->first();
+
+        if (!$ip) {
+            throw new HostActionException('没有可用的 IP 地址。');
+        }
+
+        $name = 'IP: ' . $ip->ip;
         // 价格预留 0.01 可以用来验证用户是否有足够的余额。
-        $host = $this->createCloudHost(0.01, $requests);
+        $host = $this->createCloudHost($ip->pool->price, [
+            'name' => $name,
+        ]);
 
-        /* 这里开始，是创建服务器的逻辑 */
-
-        // 这里需要根据你的业务来写，比如创建数据库，虚拟机，用户等等。
-
-        $task = $this->createTask($host, '创建主机', 'processing');
-
-        $this->updateTask($task, '正在寻找服务器。');
-        $this->updateTask($task, '正在寻找服务器。');
-        $this->updateTask($task, '已找到服务器。');
-        $this->updateTask($task, '正在创建服务器...');
-
-        // 或者，你可以将它推送到队列中，让它在后台执行。
-
-        /* 结束创建服务器的逻辑 */
-
-        /* 你可能还需要计算价格，或者将它放置到 Host 中，当 create 或者 update 时，触发价格更新 */
-        // 这里，我们手动指定价格
-
-        $host->price = 100;
-
-        // 这一步非常重要，在创建成功后，你必须将它设置为 running。
+        $host->name = $name;
+        $host->price = $ip->pool->price;
         $host->status = 'running';
+
         $host->save();
 
-        // 就这么简单，你已经创建了一个主机。
+        $ip->host_id = $host->id;
+        $ip->save();
 
-        // 最后，我们标记一下任务完成。
-        $this->updateTask($task, '服务器创建成功。', 'success');
-
+        $host->load('ip');
+        $host->ip->load('pool');
 
         return $host;
     }
