@@ -22,7 +22,7 @@
                         {{ $ip->ip }}
                         <br />
                         @if ($ip->blocked)
-                            <span class="badge bg-danger">冻结</span>
+                            <span class="badge bg-primary">保留</span>
                         @endif
                         @if ($ip->host_id)
                             <span class="badge bg-success">已分配</span>
@@ -32,8 +32,7 @@
                     <td>{{ $ip->hostname }}</td>
                     <td>{{ $ip->price ?? $ip->pool->price }}</td>
                     <td>
-                        <a href="#">信息</a>
-                        <a href="#">编辑</a>
+                        <a href="{{ route('ips.edit', $ip->id) }}">编辑</a>
                     </td>
                 </tr>
             @endforeach

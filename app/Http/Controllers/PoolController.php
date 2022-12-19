@@ -151,7 +151,13 @@ class PoolController extends Controller
      */
     public function destroy(Pool $pool)
     {
-        //
+        $count = $pool->ips()->count();
+
+        if ($count > 0) {
+            return redirect()->back()->with('error', '这个地址池中还有 ' . $count . ' 个 IP 地址，无法删除。');
+        }
+
+        return redirect()->route('pools.index')->with('success', '地址池删除成功。');
     }
 
 

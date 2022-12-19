@@ -27,7 +27,7 @@
                     <td>{{ $pool->price ?? 0 }} 元</td>
                     <td>
                         <a href="{{ route('pools.edit', $pool->id) }}">编辑</a>
-                        <a href="{{ route('pools.show', $pool->id) }}">IP 列表</a>
+                        <a href="{{ route('ips.index') }}?pool_id={{ $pool->id }}">IP 列表</a>
                         <a href="{{ route('pools.generate', $pool->id) }}">生成</a>
 
                     </td>

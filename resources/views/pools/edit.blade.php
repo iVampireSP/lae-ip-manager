@@ -52,4 +52,12 @@
         <button type="submit" class="btn btn-primary">提交</button>
     </form>
 
+    <hr />
+
+    <form action="{{ route('pools.destroy', $pool->id) }}" method="post">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">删除</button>
+    </form>
+
 </x-app-layout>

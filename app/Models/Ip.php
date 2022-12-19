@@ -20,7 +20,9 @@ class Ip extends Model
         'position',
         'blocked',
         'netmask',
-        'cidr'
+        'cidr',
+        'module_id',
+        'host_id',
     ];
 
     // casts of price
