@@ -11,17 +11,39 @@ class HostController extends Controller
 
     public function index(Request $request)
     {
-        // 模块之间调用最好也遵循 RESTful。并且 莱云 会在每个 Request 和 Header(X-Module) 中加上发起调用的 module_id。
-
-        // 从 Request 中获取 user_id
-
-        // dd($request->user_id)
-
-        // 从 Header 中获取发起调用的 module_id
-        // dd($request->header('X-Module'));
-
-
-        $hosts = Host::thisUser($request->user_id)->get();
+        $hosts = Host::thisUser($request->user_id)->with('ip')->get();
         return $this->success($hosts);
+    }
+
+    public function update(Request $request, Host $host)
+    {
+        $host->load('ip');
+
+        $from_module = $request->header('X-Module');
+
+        $host->ip->module_id = $from_module;
+        $host->ip->module_host_id = $request->module_host_id;
+        $host->ip->mac = $request->mac;
+        $host->ip->hostname = $request->hostname;
+        $host->ip->description = $request->description;
+
+        $host->ip->save();
+
+        return $this->success($host);
+    }
+
+    public function destroy(Host $host)
+    {
+        $host->load('ip');
+
+        $host->ip->module_id = null;
+        $host->ip->module_host_id = null;
+        $host->ip->mac = null;
+        $host->ip->hostname = null;
+        $host->ip->description = null;
+
+        $host->ip->save();
+
+        return $this->success();
     }
 }

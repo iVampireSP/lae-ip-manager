@@ -57,18 +57,6 @@ class HostAction extends Action
 
     public function update(Host $host, array $requests)
     {
-        // 更新主机也非常简单。
-        $task = $this->createTask($host, '正在应用更改', 'processing');
-
-        // 这里需要根据你的业务来写，比如更新数据库，虚拟机，用户等等。
-
-        $host->update($requests);
-
-        /* 结束更新服务器的逻辑 */
-
-        // 最后，我们标记一下任务完成。
-        $this->updateTask($task, '更改已应用。', 'success');
-
         return $host;
     }
 
@@ -79,27 +67,20 @@ class HostAction extends Action
             throw new HostActionException('主机正在创建中，无法删除');
         }
 
-        // 之后，我们就可以删除主机了。
+        $host->load('ip');
 
-        $task = $this->createTask($host, '正在删除主机...');
+        // 检测 IP 是否被分配
+        if ($host->ip->module_id) {
+            throw new HostActionException('此 IP 地址已被分配，需要到对应模块解除绑定后才能删除。');
+        }
 
-        // 下面，是删除主机的逻辑，比如删除数据库，虚拟机，用户等等。
-        $this->updateTask($task, '正在关闭您的客户端连接...');
+        // 解除 IP 绑定
+        $host->ip->host_id = null;
+        $host->ip->module_id = null;
+        $host->ip->module_host_id = null;
+        $host->ip->save();
 
-        $this->updateTask(
-            $task,
-            '从我们的数据库中删除...'
-        );
-
-        // 之后，删除本地数据库中的数据
         $host->delete();
-
-        $this->updateTask(
-            $task,
-            '已删除。',
-            'done'
-        );
-
         // 告诉云端，此主机已被删除。
         $this->deleteCloudHost($host);
 

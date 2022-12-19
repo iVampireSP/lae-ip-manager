@@ -43,4 +43,9 @@ class HostController extends Controller
 
         return $HostController->destroy($host);
     }
+
+    public function linkDown()
+    {
+        // 此方法用于通知对应模块，IP 需要被断开。
+    }
 }
