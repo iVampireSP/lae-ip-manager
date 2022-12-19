@@ -17,6 +17,13 @@ class HostController extends Controller
 
     public function update(Request $request, Host $host)
     {
+        $request->validate([
+            'mac' => 'string|max:255',
+            'description' => 'string|max:255',
+            'hostname' => 'string|max:255',
+            'module_host_id' => 'integer',
+        ]);
+
         $host->load('ip');
 
         $from_module = $request->header('X-Module');
