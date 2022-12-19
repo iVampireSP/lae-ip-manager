@@ -71,7 +71,6 @@ class GenerateIpJob implements ShouldQueue
             $create = [
                 'ip' => $ip,
                 'position' => $position,
-                'price' => $pool->price,
             ];
 
 

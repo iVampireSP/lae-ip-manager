@@ -16,7 +16,6 @@ class Ip extends Model
         'mac',
         'hostname',
         'description',
-        'price',
         'position',
         'blocked',
         'netmask',
@@ -24,13 +23,6 @@ class Ip extends Model
         'module_id',
         'host_id',
     ];
-
-    // casts of price
-    protected $casts = [
-        'price' => 'decimal:2',
-
-    ];
-
 
     public function pool()
     {

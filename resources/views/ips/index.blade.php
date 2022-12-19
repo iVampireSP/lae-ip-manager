@@ -8,7 +8,6 @@
                 <th>IP 地址</th>
                 <th>地址池</th>
                 <th>主机名</th>
-                <th>价格</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -30,7 +29,6 @@
                     </td>
                     <td>{{ $ip->pool->pool }}</td>
                     <td>{{ $ip->hostname }}</td>
-                    <td>{{ $ip->price ?? $ip->pool->price }}</td>
                     <td>
                         <a href="{{ route('ips.edit', $ip->id) }}">编辑</a>
                     </td>
