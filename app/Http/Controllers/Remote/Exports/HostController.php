@@ -11,7 +11,16 @@ class HostController extends Controller
 
     public function index(Request $request)
     {
-        $hosts = Host::thisUser($request->user_id)->with('ip')->get();
+        $hosts = Host::with('ip');
+
+        foreach ($request->only(['id', 'region_id', 'user_id', 'host_id', 'status']) as $field) {
+            if ($request->has($field)) {
+                $hosts->where($field, 'like', '%' . $request->input($field) . '%');
+            }
+        }
+
+        $hosts = $hosts->get();
+
         return $this->success($hosts);
     }
 
