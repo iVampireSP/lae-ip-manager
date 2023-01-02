@@ -6,7 +6,7 @@
     <h3>{{ $work_order->title }}</h3>
     客户: {{ $work_order->user->name }} 的工单
 
-    <h5>{{ \Illuminate\Mail\Markdown::parse($work_order->content) }}</h5>
+    <h5>@parsedown($work_order->content)</h5>
 
     <x-work-order-status :status="$work_order->status"></x-work-order-status>
 
@@ -17,23 +17,29 @@
 
 
     <div class="mt-3">
-        <!-- replies -->
         <h4>对话记录</h4>
 
         @foreach ($work_order->replies as $reply)
             <div class="card border-light mb-3 shadow">
-                <div class="card-header">
-                    @if ($reply->user_id)
-                        <a href="{{ route('users.show', $reply->user) }}">{{ $work_order->user->name }}</a>
-                    @else
-                        您
+                <div class="card-header d-flex w-100 justify-content-between">
+                    @if ($reply->role === 'user')
+                        @if ($reply->user_id)
+                            <a href="{{ route('users.show', $reply->user) }}">{{ $work_order->user->name }}</a>
+                        @else
+                            <span>{{ $reply->name }}</span>
+                        @endif
+                    @elseif ($reply->role === 'admin')
+                        <span class="text-primary"> 莱云 </span>
+                    @elseif ($reply->role === 'module')
+                        模块: {{ $reply->name }}
+                    @elseif ($reply->role === 'guest')
+                        {{ $reply->name }}
                     @endif
 
                     <span class="text-end">{{ $reply->created_at }}</span>
                 </div>
-
                 <div class="card-body">
-                    {{ \Illuminate\Mail\Markdown::parse($reply->content) }}
+                    @parsedown($reply->content)
                 </div>
             </div>
         @endforeach
