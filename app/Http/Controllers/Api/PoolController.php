@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Remote\Functions;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Pool;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class PoolController extends Controller
 {

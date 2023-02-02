@@ -64,8 +64,7 @@ class Action
             $host_id = $resp_json['id'];
             $data['host_id'] = $host_id;
 
-            $host = Host::create($data);
-            return $host;
+            return Host::create($data);
         }
     }
 

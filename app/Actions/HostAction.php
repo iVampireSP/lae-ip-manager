@@ -11,7 +11,7 @@ use App\Exceptions\HostActionException;
 /**
  * 这里是主机的操作，你可以在这里写任何你想要的操作。
  *
- * 我们推荐将它推到队列中执行，这样可以极大的提高性能。
+ * 我们推荐将它推到队列中执行，这样可以极大地提高性能。
  *
  * 但是需要结合你的业务来决定是否需要推到队列中执行，否则会在开发时造成不必要的麻烦。
  *
@@ -19,7 +19,10 @@ use App\Exceptions\HostActionException;
 class HostAction extends Action
 {
 
-    public function create(array $requests)
+    /**
+     * @throws HostActionException
+     */
+    public function create(array $requests): Host
     {
 
         $pool_id = $requests['pool_id'];

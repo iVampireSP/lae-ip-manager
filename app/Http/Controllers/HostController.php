@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Host;
-use App\Models\WorkOrder\WorkOrder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\View\View;
+use ivampiresp\Cocoa\Http\Controller;
+use ivampiresp\Cocoa\Models\WorkOrder\WorkOrder;
 
 class HostController extends Controller
 {
@@ -40,7 +41,7 @@ class HostController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return void
      */
     public function create()
     {
@@ -50,9 +51,9 @@ class HostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return Response
+     * @return void
      */
     public function store(Request $request)
     {
@@ -64,7 +65,7 @@ class HostController extends Controller
      *
      * @param Host $host
      *
-     * @return Response
+     * @return View
      */
     public function show(Host $host)
     {
@@ -79,7 +80,7 @@ class HostController extends Controller
      *
      * @param Host $host
      *
-     * @return Response
+     * @return View
      */
     public function edit(Host $host)
     {
@@ -90,10 +91,10 @@ class HostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param Host                     $host
+     * @param Request $request
+     * @param Host    $host
      *
-     * @return Response
+     * @return RedirectResponse
      */
     public function update(Request $request, Host $host)
     {
@@ -122,13 +123,13 @@ class HostController extends Controller
      *
      * @param Host $host
      *
-     * @return Response
+     * @return RedirectResponse
      */
     public function destroy(Host $host)
     {
         // 销毁前的逻辑
 
-        $HostController = new Remote\Functions\HostController();
+        $HostController = new Api\HostController();
         $HostController->destroy($host);
 
         return back()->with('success', '已开始销毁。');

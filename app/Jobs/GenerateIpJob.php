@@ -97,6 +97,5 @@ class GenerateIpJob implements ShouldQueue
         $pool->position = $position;
         $pool->save();
 
-        return;
     }
 }

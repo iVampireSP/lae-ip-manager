@@ -43,40 +43,40 @@ trait ApiResponse
 
     public function badRequest($message = 'Bad request')
     {
-        return $this->error($message, 400);
+        return $this->error($message);
     }
 
     // bad request
 
     public function created($message = 'Created')
     {
-        return $this->success($message, 201);
+        return $this->success($message);
     }
 
     // created
 
     public function success($data = [])
     {
-        return $this->apiResponse($data, 200);
+        return $this->apiResponse($data);
     }
 
     // accepted
 
     public function accepted($message = 'Accepted')
     {
-        return $this->success($message, 202);
+        return $this->success($message);
     }
 
     // no content
     public function noContent($message = 'No content')
     {
-        return $this->success($message, 204);
+        return $this->success($message);
     }
 
     // updated
     public function updated($message = 'Updated')
     {
-        return $this->success($message, 200);
+        return $this->success($message);
     }
 
     // deleted

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Remote\Functions;
+namespace App\Http\Controllers\Api;
 
 use App\Actions\HostAction;
 use App\Exceptions\HostActionException;
 use App\Http\Controllers\Controller;
 use App\Models\Host;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class HostController extends Controller
 {

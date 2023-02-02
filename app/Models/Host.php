@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Http;
 
 class Host extends Model
 {
-    use HasFactory;
 
     protected $table = 'hosts';
 
@@ -32,8 +31,8 @@ class Host extends Model
     protected static function boot()
     {
         parent::boot();
-        static::creating(function ($model) {
-            $http = Http::remote('remote')->asForm();
+        static::creating(function (self $model) {
+            $http = Http::remote()->asForm();
             // if id exists
             if ($model->where('id', $model->id)->exists()) {
                 return false;
@@ -53,6 +52,8 @@ class Host extends Model
             $http->patch('/hosts/' . $model->host_id, [
                 'price' => $model->price
             ]);
+
+            return true;
         });
 
         // update
@@ -112,7 +113,6 @@ class Host extends Model
         // 你可以自定义价格计算器。
 
         // $this->load('location');
-        $price = 0;
         // $price += $this->location->price;
         // $price += ($this->cpu_limit / 100) * $this->location->cpu_price;
         // $price += ($this->memory) *
@@ -126,7 +126,7 @@ class Host extends Model
         // $price += $this->databases *
         //     $this->location->database_price;
 
-        return $price;
+        return 0;
     }
 
 
@@ -152,7 +152,8 @@ class Host extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function ip() {
+    public function ip()
+    {
         return $this->hasOne(Ip::class);
     }
 
