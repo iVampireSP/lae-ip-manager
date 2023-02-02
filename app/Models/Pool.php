@@ -6,9 +6,11 @@ use PhpIP\IPBlock;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property mixed|string $pool
+ */
 class Pool extends Model
 {
-    use HasFactory;
 
     protected $fillable = [
         'pool',
@@ -29,22 +31,22 @@ class Pool extends Model
         'price' => 'decimal:2',
     ];
 
-    public function parent()
+    public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Pool::class, 'parent_id');
     }
 
-    public function children()
+    public function children(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Pool::class, 'parent_id');
     }
 
-    public function region()
+    public function region(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Region::class);
     }
 
-    public function ips()
+    public function ips(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Ip::class);
     }

@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Ip;
 use App\Actions\HostAction;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Exceptions\HostActionException;
 
@@ -12,9 +16,11 @@ class IpController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Request $request
+     *
+     * @return Application|Factory|View
      */
-    public function index(Request $request)
+    public function index(Request $request): View|Factory|Application
     {
         $ip = Ip::query();
 
@@ -33,11 +39,11 @@ class IpController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Ip  $ip
+     * @param Ip $ip
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function edit(Ip $ip)
+    public function edit(Ip $ip): View|Factory|Application
     {
         //
 
@@ -47,12 +53,12 @@ class IpController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ip  $ip
+     * @param Request $request
+     * @param Ip      $ip
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(Request $request, Ip $ip)
+    public function update(Request $request, Ip $ip): RedirectResponse
     {
         //
         $req = $request->only(['mac', 'hostname', 'description', 'price', 'blocked']);
@@ -65,11 +71,11 @@ class IpController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Ip  $ip
+     * @param Ip $ip
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function destroy(Ip $ip)
+    public function destroy(Ip $ip): RedirectResponse
     {
         if (!$ip->host_id) {
             return redirect()->back()->with('error', 'IP 地址未绑定主机。');

@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Admin;
 use Illuminate\Console\Command;
+use ivampiresp\Cocoa\Models\Admin;
 
 class ChangePassword extends Command
 {
@@ -26,11 +26,11 @@ class ChangePassword extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $email = $this->ask('请输入邮箱');
 
-        $admin = Admin::where('email', $email)->first();
+        $admin = (new Admin)->where('email', $email)->first();
         if (!$admin) {
             $this->error('用户不存在');
             return 1;

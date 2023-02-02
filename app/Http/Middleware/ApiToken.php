@@ -2,69 +2,31 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Closure;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Response;
 
 class ApiToken
 {
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request                                                                          $request
-     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse) $next
+     * @param Request                                       $request
+     * @param Closure(Request): (Response|RedirectResponse) $next
      *
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @return JsonResponse|RedirectResponse|Response
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response|JsonResponse|RedirectResponse
     {
-        // add json header
-        $request->headers->set('Accept', 'application/json');
-
-        // bearer token
-        if (!$request->hasHeader('Authorization')) {
-            return $this->unauthorized();
-        }
-
-        $token = $request->bearerToken();
-
-        $config_token = config('app.api_token');
-
-        if ($config_token == null) {
-            return $this->unauthorized();
-        }
-
-        if ($token !== $config_token) {
-            return $this->unauthorized();
-        }
-
-        if ($request->user_id) {
-            $user = User::where('id', $request->user_id)->first();
-            // if user null
-            if (!$user) {
-                $http = Http::remote('remote')->asForm();
-                $user = $http->get('/users/' . $request->user_id)->json();
-
-                $user = User::create([
-                    'id' => $user['id'],
-                    'name' => $user['name'],
-                    'email' => $user['email'],
-                ]);
-            }
-
-            Auth::guard('user')->login($user);
+        // if bearer token is not set
+        if (!$request->bearerToken() || $request->bearerToken() !== config('app.api_token')) {
+            return response()->json([
+                'message' => 'Unauthorized',
+            ], 401);
         }
 
         return $next($request);
-    }
-
-
-    public function unauthorized()
-    {
-        return response()->json([
-            'message' => 'Unauthorized.'
-        ], 401);
     }
 }

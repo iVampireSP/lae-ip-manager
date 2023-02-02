@@ -7,14 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Region extends Model
 {
-    use HasFactory;
 
     protected $fillable = [
         'name',
         'code',
     ];
 
-    public function pools()
+    public function pools(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Pool::class);
     }

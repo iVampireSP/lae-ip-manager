@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Remote\Exports;
 
 use App\Http\Controllers\Controller;
 use App\Models\Host;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class HostController extends Controller
 {
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $hosts = Host::with('ip');
 
@@ -24,7 +25,7 @@ class HostController extends Controller
         return $this->success($hosts);
     }
 
-    public function update(Request $request, Host $host)
+    public function update(Request $request, Host $host): JsonResponse
     {
         $request->validate([
             'mac' => 'string|max:255',
@@ -38,17 +39,17 @@ class HostController extends Controller
         $from_module = $request->header('X-Module');
 
         $host->ip->module_id = $from_module;
-        $host->ip->module_host_id = $request->module_host_id;
-        $host->ip->mac = $request->mac;
-        $host->ip->hostname = $request->hostname;
-        $host->ip->description = $request->description;
+        $host->ip->module_host_id = $request->input('module_host_id');
+        $host->ip->mac = $request->input('mac');
+        $host->ip->hostname = $request->input('hostname');
+        $host->ip->description = $request->input('description');
 
         $host->ip->save();
 
         return $this->success($host);
     }
 
-    public function destroy(Host $host)
+    public function destroy(Host $host): JsonResponse
     {
         $host->load('ip');
 

@@ -4,13 +4,14 @@ namespace App\Actions;
 
 use App\Exceptions\HostActionException;
 use App\Models\Host;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class Action
 {
-    protected $http;
+    protected PendingRequest $http;
 
     public function __construct()
     {
@@ -41,6 +42,9 @@ class Action
         }
     }
 
+    /**
+     * @throws HostActionException
+     */
     public function createCloudHost(float $price, array $data = [])
     {
         // 过滤掉不需要的数据
@@ -64,11 +68,11 @@ class Action
             $host_id = $resp_json['id'];
             $data['host_id'] = $host_id;
 
-            return Host::create($data);
+            return (new Host)->create($data);
         }
     }
 
-    public function updateTask($task_id, $title = null, $status = null, $progress = null)
+    public function updateTask($task_id, $title = null, $status = null, $progress = null): bool
     {
         $append = [];
 
@@ -113,7 +117,7 @@ class Action
         }
     }
 
-    protected function deleteCloudHost($host)
+    protected function deleteCloudHost($host): bool
     {
         if ($host instanceof Host) {
             $host_id = $host->host_id;

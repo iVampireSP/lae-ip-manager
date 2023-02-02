@@ -2,10 +2,10 @@
 
 namespace App\Actions;
 
-use App\Models\Ip;
 use App\Models\Host;
+use App\Models\Ip;
+use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
 use App\Exceptions\HostActionException;
 
 /**
@@ -28,7 +28,7 @@ class HostAction extends Action
         $pool_id = $requests['pool_id'];
 
         // 寻找可用的 IP
-        $ip = Ip::where('pool_id', $pool_id)
+        $ip = (new Ip)->where('pool_id', $pool_id)
             ->whereNull('host_id')
             ->where('blocked', 0)
             ->with('pool')
@@ -59,12 +59,15 @@ class HostAction extends Action
         return $host;
     }
 
-    public function update(Host $host, array $requests)
+    public function update(Host $host, array $requests): Host
     {
         return $host;
     }
 
-    public function destroy(Host $host)
+    /**
+     * @throws HostActionException
+     */
+    public function destroy(Host $host): bool
     {
         // 你不应该删除 pending 状态的主机，因为它还没有创建成功。
         if ($host->status === 'pending') {
@@ -75,8 +78,8 @@ class HostAction extends Action
 
         if ($host->ip->module_id) {
             try {
-                $this->http->delete("/modules/{$host->ip->module_id}/ips/{$host->host_id}")->json();
-            } catch (\Exception $e) {
+                $this->http->delete("/modules/{$host->ip->module_id}/ips/$host->host_id")->json();
+            } catch (Exception $e) {
                 Log::error($e->getMessage());
                 throw new HostActionException('对端未能及时释放 IP 地址，无法删除。');
             }
@@ -105,12 +108,18 @@ class HostAction extends Action
         // 启动此主机，比如启动虚拟机，启动数据库等等。
     }
 
+    /**
+     * @throws HostActionException
+     */
     public function stopped(Host $host)
     {
         // 关闭此主机，比如关闭虚拟机，关闭数据库等等。
         $this->destroy($host);
     }
 
+    /**
+     * @throws HostActionException
+     */
     public function suspended(Host $host)
     {
         $this->destroy($host);

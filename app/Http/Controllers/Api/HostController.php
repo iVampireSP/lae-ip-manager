@@ -6,18 +6,22 @@ use App\Actions\HostAction;
 use App\Exceptions\HostActionException;
 use App\Http\Controllers\Controller;
 use App\Models\Host;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class HostController extends Controller
 {
-    public function index(Request $request)
+    public function index(): JsonResponse
     {
         // dd($request);
-        $hosts = Host::thisUser()->get();
+        $hosts = (new Host)->thisUser()->get();
         return $this->success($hosts);
     }
 
-    public function store(Request $request)
+    /**
+     * @throws HostActionException
+     */
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'pool_id' => 'required|integer|exists:pools,id',
@@ -30,7 +34,7 @@ class HostController extends Controller
         return $this->created($host);
     }
 
-    public function show(Host $host)
+    public function show(Host $host): JsonResponse
     {
         $this->isUser($host);
 
@@ -51,12 +55,12 @@ class HostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param Host                     $host
+     * @param Request $request
+     * @param Host    $host
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function update(Request $request, Host $host)
+    public function update(Request $request, Host $host): JsonResponse
     {
         $this->isUser($host);
 
@@ -75,9 +79,9 @@ class HostController extends Controller
      *
      * @param Host $host
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function destroy(Host $host)
+    public function destroy(Host $host): JsonResponse
     {
         $this->isUser($host);
 

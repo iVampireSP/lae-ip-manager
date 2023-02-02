@@ -4,11 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use PhpIP\IP as PhpIPIP;
 
 class Ip extends Model
 {
-    use HasFactory;
 
     protected $fillable = [
         'ip',
@@ -25,19 +23,19 @@ class Ip extends Model
         'host_id'
     ];
 
-    public function pool()
+    public function pool(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Pool::class);
     }
 
     // ipv6
-    public function getIpV6Attribute($value)
+    public function getIpV6Attribute($value): ?string
     {
         return $value ? gmp_strval($value, 16) : null;
     }
 
     // host
-    public function host()
+    public function host(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Host::class);
     }

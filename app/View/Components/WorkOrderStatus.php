@@ -2,11 +2,14 @@
 
 namespace App\View\Components;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class WorkOrderStatus extends Component
 {
-    public $status = null;
+    public ?string $status = null;
 
     /**
      * Create a new component instance.
@@ -23,9 +26,9 @@ class WorkOrderStatus extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function render()
+    public function render(): View|Factory|Application
     {
         $this->status = match ($this->status) {
             'pending' => '推送中',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Remote\Exports;
 
 use App\Http\Controllers\Controller;
 use App\Models\Region;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class RegionController extends Controller
@@ -11,11 +12,11 @@ class RegionController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         //
 

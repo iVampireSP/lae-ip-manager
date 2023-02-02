@@ -24,7 +24,7 @@ class Alert extends Component
      *
      * @return Application|Factory|View
      */
-    public function render()
+    public function render(): View|Factory|Application
     {
         return view('components.alert');
     }

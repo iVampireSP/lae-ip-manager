@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Server;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ServerController extends Controller
@@ -10,12 +14,12 @@ class ServerController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         //
-        $servers = Server::simplePaginate(10);
+        $servers = (new Server)->simplePaginate(10);
 
         return view('servers.index', compact('servers'));
     }
@@ -23,11 +27,11 @@ class ServerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         //
         $request->validate([
@@ -39,7 +43,7 @@ class ServerController extends Controller
             'status' => 'required',
         ]);
 
-        Server::create($request->all());
+        (new Server)->create($request->all());
 
         return redirect()->route('servers.index')->with('success', '服务器成功添加。');
     }
@@ -47,9 +51,9 @@ class ServerController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         //
         return view('servers.create');
@@ -60,9 +64,9 @@ class ServerController extends Controller
      *
      * @param Server $server
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function show(Server $server)
+    public function show(Server $server): View|Factory|Application
     {
         //
         return view('servers.show', compact('server'));
@@ -73,9 +77,9 @@ class ServerController extends Controller
      *
      * @param Server $server
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function edit(Server $server)
+    public function edit(Server $server): View|Factory|Application
     {
         //
         return view('servers.edit', compact('server'));
@@ -84,12 +88,12 @@ class ServerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param Server                   $server
+     * @param Request $request
+     * @param Server  $server
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(Request $request, Server $server)
+    public function update(Request $request, Server $server): RedirectResponse
     {
         //
         // $request->validate([
@@ -108,9 +112,9 @@ class ServerController extends Controller
      *
      * @param Server $server
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function destroy(Server $server)
+    public function destroy(Server $server): RedirectResponse
     {
         //
         $server->delete();

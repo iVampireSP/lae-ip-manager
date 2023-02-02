@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Region;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class RegionController extends Controller
@@ -10,9 +14,9 @@ class RegionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         $regions = Region::all();
 
@@ -22,9 +26,9 @@ class RegionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         //
 
@@ -34,11 +38,11 @@ class RegionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         //
         $request->validate([
@@ -46,9 +50,9 @@ class RegionController extends Controller
             'code' => 'required|string|unique:regions,code',
         ]);
 
-        Region::create([
-            'name' => $request->name,
-            'code' => $request->code,
+        (new Region)->create([
+            'name' => $request->input('name'),
+            'code' => $request->input('code'),
         ]);
 
         return redirect()->route('regions.index')->with('success', '区域创建成功。');
@@ -57,11 +61,11 @@ class RegionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Region  $region
+     * @param Region $region
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function edit(Region $region)
+    public function edit(Region $region): View|Factory|Application
     {
         //
         return view('regions.edit', compact('region'));
@@ -70,12 +74,12 @@ class RegionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Region  $region
+     * @param Request $request
+     * @param Region  $region
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(Request $request, Region $region)
+    public function update(Request $request, Region $region): RedirectResponse
     {
         //
 
@@ -85,8 +89,8 @@ class RegionController extends Controller
         ]);
 
         $region->update([
-            'name' => $request->name,
-            'code' => $request->code,
+            'name' => $request->input('name'),
+            'code' => $request->input('code'),
         ]);
 
         return redirect()->back()->with('success', '区域更新成功。');
@@ -95,11 +99,11 @@ class RegionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Region  $region
+     * @param Region $region
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function destroy(Region $region)
+    public function destroy(Region $region): RedirectResponse
     {
         //
 

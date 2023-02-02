@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use PhpIP\IPBlock;
 use App\Models\Pool;
 use App\Models\Region;
@@ -15,9 +19,9 @@ class PoolController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         $pools = Pool::with('region')->get();
 
@@ -27,9 +31,9 @@ class PoolController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $regions = Region::all();
 
@@ -39,11 +43,11 @@ class PoolController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'pool' => 'required|string|unique:pools,pool|max:255',
@@ -55,22 +59,22 @@ class PoolController extends Controller
         ]);
 
         try {
-            $ip = $this->validateIp($request->pool, $request->gateway, $request->nameservers);
+            $ip = $this->validateIp($request->input('pool'), $request->input('gateway'), $request->input('nameservers'));
         } catch (IpException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
 
 
-        Pool::create([
-            'pool' => $request->pool,
+        (new Pool)->create([
+            'pool' => $request->input('pool'),
             'netmask' => $ip['netmask'],
             'cidr' => $ip['cidr'],
-            'gateway' => $request->gateway,
-            'region_id' => $request->region_id,
+            'gateway' => $request->input('gateway'),
+            'region_id' => $request->input('region_id'),
             'nameservers' => $ip['nameservers'],
-            'description' => $request->description,
+            'description' => $request->input('description'),
             'type' => $ip['type'],
-            'price' => $request->price,
+            'price' => $request->input('price'),
         ]);
 
         return redirect()->route('pools.index')->with('success', '地址池创建成功。');
@@ -79,11 +83,11 @@ class PoolController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pool  $pool
+     * @param Pool $pool
      *
      * @return void
      */
-    public function show(Pool $pool)
+    public function show(Pool $pool): void
     {
         //
     }
@@ -91,11 +95,11 @@ class PoolController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pool  $pool
+     * @param Pool $pool
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function edit(Pool $pool)
+    public function edit(Pool $pool): View|Factory|Application
     {
         //
 
@@ -107,12 +111,12 @@ class PoolController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Pool         $pool
+     * @param Request $request
+     * @param Pool    $pool
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(Request $request, Pool $pool)
+    public function update(Request $request, Pool $pool): RedirectResponse
     {
         //
 
@@ -126,22 +130,22 @@ class PoolController extends Controller
         ]);
 
         try {
-            $ip = $this->validateIp($request->pool, $request->gateway, $request->nameservers);
+            $ip = $this->validateIp($request->input('pool'), $request->input('gateway'), $request->input('nameservers'));
         } catch (IpException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
 
 
         $pool->update([
-            'pool' => $request->pool,
+            'pool' => $request->input('pool'),
             'netmask' => $ip['netmask'],
             'cidr' => $ip['cidr'],
-            'gateway' => $request->gateway,
-            'region_id' => $request->region_id,
+            'gateway' => $request->input('gateway'),
+            'region_id' => $request->input('region_id'),
             'nameservers' => $ip['nameservers'],
-            'description' => $request->description,
+            'description' => $request->input('description'),
             'type' => $ip['type'],
-            'price' => $request->price,
+            'price' => $request->input('price'),
         ]);
 
         return redirect()->route('pools.index')->with('success', '地址池更新成功。');
@@ -150,11 +154,11 @@ class PoolController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pool $pool
+     * @param Pool $pool
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function destroy(Pool $pool)
+    public function destroy(Pool $pool): RedirectResponse
     {
         $count = $pool->ips()->count();
 
@@ -166,7 +170,10 @@ class PoolController extends Controller
     }
 
 
-    public function validateIp($pool, $gateway, string|array|null $nameservers = [])
+    /**
+     * @throws IpException
+     */
+    public function validateIp($pool, $gateway, string|array|null $nameservers = []): array
     {
         // 检测是否是合法的IP/CIDR地址格式
 
@@ -208,17 +215,17 @@ class PoolController extends Controller
     }
 
 
-    public function show_generate(Pool $pool)
+    public function show_generate(Pool $pool): Factory|View|Application
     {
         return view('pools.generate', compact('pool'));
     }
 
-    public function run_generate(Request $request, Pool $pool)
+    public function run_generate(Request $request, Pool $pool): RedirectResponse
     {
         $request->validate(['count' => 'required|integer|min:1|max:1000']);
 
-        dispatch(new GenerateIpJob($pool, $request->count));
+        dispatch(new GenerateIpJob($pool, $request->input('count')));
 
-        return redirect()->route('ips.index')->with('success', "正在后台生成 {$request->count} 个 在此子网内的 IP 地址。");
+        return redirect()->route('ips.index')->with('success', "正在后台生成 {$request->input('count')} 个 在此子网内的 IP 地址。");
     }
 }

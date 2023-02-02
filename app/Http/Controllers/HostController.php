@@ -14,9 +14,11 @@ class HostController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     *
      * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         //
         $hosts = Host::with('user');
@@ -43,7 +45,7 @@ class HostController extends Controller
      *
      * @return void
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -55,7 +57,7 @@ class HostController extends Controller
      *
      * @return void
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         //
     }
@@ -67,7 +69,7 @@ class HostController extends Controller
      *
      * @return View
      */
-    public function show(Host $host)
+    public function show(Host $host): View
     {
         //
         $workOrders = WorkOrder::where('host_id', $host->id)->orderBy('id', 'desc')->paginate(100);
@@ -82,7 +84,7 @@ class HostController extends Controller
      *
      * @return View
      */
-    public function edit(Host $host)
+    public function edit(Host $host): View
     {
         //
         return view('hosts.edit', ['host' => $host]);
@@ -96,7 +98,7 @@ class HostController extends Controller
      *
      * @return RedirectResponse
      */
-    public function update(Request $request, Host $host)
+    public function update(Request $request, Host $host): RedirectResponse
     {
         //
         $request->validate([
@@ -105,7 +107,7 @@ class HostController extends Controller
         ]);
 
         // if status is cost
-        if ($request->status == 'cost') {
+        if ($request->input('status') == 'cost') {
             $this->http->patch('hosts/' . $host->host_id, [
                 'cost_once' => $host->price,
             ]);
@@ -125,7 +127,7 @@ class HostController extends Controller
      *
      * @return RedirectResponse
      */
-    public function destroy(Host $host)
+    public function destroy(Host $host): RedirectResponse
     {
         // 销毁前的逻辑
 

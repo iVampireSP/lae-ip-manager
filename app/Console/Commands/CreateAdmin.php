@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Admin;
 use Illuminate\Console\Command;
+use ivampiresp\Cocoa\Models\Admin;
 
 class CreateAdmin extends Command
 {
@@ -26,12 +26,12 @@ class CreateAdmin extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         // if is local
-        if (env('APP_ENV') == 'local') {
+        if (app()->environment() == 'local') {
             $this->info('由于是 local 环境，将会自动创建 Admin 用户。');
-            Admin::create([
+            (new Admin)->create([
                 'name' => 'Test',
                 'email' => 'im@ivampiresp.com',
                 'password' => bcrypt('123456'),
@@ -49,7 +49,7 @@ class CreateAdmin extends Command
         $password = $this->secret('请输入密码(密码不会显示在终端)');
 
         // create the admin
-        Admin::create([
+        (new Admin)->create([
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password),
