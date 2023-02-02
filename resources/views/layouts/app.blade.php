@@ -22,7 +22,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md shadow-sm bg-white">
             <div class="container">
-                <a class="navbar-brand text-auto" href="{{ route('index') }}">
+                <a class="navbar-brand text-auto" href="{{ route('earnings') }}">
                     {{ config('app.name') }}
                 </a>
                 <button class="navbar-toggler text-auto" type="button" data-bs-toggle="collapse"
@@ -36,7 +36,7 @@
                     @auth
                         <ul class="navbar-nav me-auto">
                             <li class="nav-item">
-                                <a class="nav-link text-auto" href="{{ route('index') }}">首页</a>
+                                <a class="nav-link text-auto" href="{{ route('earnings') }}">首页</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-auto" href="{{ route('users.index') }}">客户</a>

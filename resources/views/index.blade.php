@@ -1,28 +1,5 @@
 <x-app-layout>
-    <h4>收益</h4>
-    <table class="table table-hover">
-        <thead>
-        <th>年 / 月</th>
+    <h3>你无法直接使用 {{ config('app.display_name') }}。</h3>
 
-        @for ($i = 1; $i < 13; $i++)
-            <th>{{ $i }} 月</th>
-        @endfor
-        </thead>
-        <tbody>
-
-        @foreach ($years as $year => $months)
-            <tr>
-                <td>{{ $year }}</td>
-                @for ($i = 1; $i < 13; $i++)
-                    <td @if (($months[$i]['should_balance'] ?? 0) > 0) class="text-danger" @endif>
-                        {{ round($months[$i]['should_balance'] ?? 0, 2) ?? 0 }}
-                        元
-                    </td>
-                @endfor
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-
-
+    <p>要使用此模块，请到 <a href="https://dash.laecloud.com">莱云</a> 中找到 {{ config('app.display_name') }}。</p>
 </x-app-layout>
