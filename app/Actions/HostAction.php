@@ -77,20 +77,20 @@ class HostAction extends Action
 
         $host->load('ip');
 
-        if ($host->ip->module_id) {
+        if ($host->ip) {
             try {
                 $this->http->delete("/modules/{$host->ip->module_id}/ips/$host->host_id")->json();
             } catch (Exception $e) {
                 Log::error($e->getMessage());
                 throw new HostActionException('对端未能及时释放 IP 地址，无法删除。');
             }
-        }
 
-        // 解除 IP 绑定
-        $host->ip->host_id = null;
-        $host->ip->module_id = null;
-        $host->ip->module_host_id = null;
-        $host->ip->save();
+            // 解除 IP 绑定
+            $host->ip->host_id = null;
+            $host->ip->module_id = null;
+            $host->ip->module_host_id = null;
+            $host->ip->save();
+        }
 
         $host->delete();
         // 告诉云端，此主机已被删除。

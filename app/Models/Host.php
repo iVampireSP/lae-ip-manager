@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Host extends \ivampiresp\Cocoa\Models\Host
 {
 
-    public function ip(): HasMany
+    public function ip(): HasOne
     {
-        return $this->hasMany(Ip::class);
+        return $this->hasOne(Ip::class);
     }
 }
