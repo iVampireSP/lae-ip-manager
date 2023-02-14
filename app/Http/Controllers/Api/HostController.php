@@ -45,8 +45,8 @@ class HostController extends Controller
     {
         // return $host->user_id == Auth::id();
 
-        if (request('user_id') !== null) {
-            if ($host->user_id != request('user_id')) {
+        if (auth('api')->id() !== null) {
+            if ($host->user_id !=auth('api')->id()) {
                 abort(403);
             }
         }

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <h3>服务器列表</h3>
+    <h3>NAT 网关服务器</h3>
     <a href="{{ route('servers.create') }}">添加服务器</a>
 
     <table class="table table-hover">
