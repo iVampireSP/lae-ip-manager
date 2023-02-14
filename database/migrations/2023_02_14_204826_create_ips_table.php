@@ -13,7 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ip_address', function (Blueprint $table) {
+        // drop table ips
+        Schema::dropIfExists('ips');
+
+        Schema::create('ips', function (Blueprint $table) {
             $table->id();
 
             $table->string('ip')->index()->nullable();
@@ -34,9 +37,12 @@ return new class extends Migration
 
             $table->string('description')->nullable();
 
-            $table->decimal('price', 10, 2)->nullable();
-
             $table->boolean('blocked')->default(false)->index();
+
+            $table->unsignedBigInteger('host_id')->index()->nullable();
+            $table->foreign('host_id')->references('id')->on('hosts')->onDelete('set null');
+            $table->string('module_id')->index()->nullable();
+            $table->unsignedBigInteger('module_host_id')->index()->nullable();
 
             // position
             $table->unsignedBigInteger('position')->index();
@@ -53,6 +59,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ip_address');
+        Schema::dropIfExists('ips');
     }
 };

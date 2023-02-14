@@ -39,14 +39,15 @@ class HostAction extends Action
         }
 
         $name = 'IP: ' . $ip->ip;
-        // 价格预留 0.01 可以用来验证用户是否有足够的余额。
-        $host = $this->createCloudHost($ip->pool->price, [
+
+        $host = $this->createCloudHost($ip->pool->price ?? 0, [
             'name' => $name,
         ]);
 
         $host->name = $name;
-        $host->price = $ip->pool->price;
+        $host->price = $ip->pool->price ?? 0;
         $host->status = 'running';
+        $host->user_id = auth('api')->id();
 
         $host->save();
 

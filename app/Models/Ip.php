@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Ip extends Model
 {
 
-    protected $table = 'ip_address';
+    protected $table = 'ips';
 
     protected $fillable = [
         'ip',
@@ -25,7 +26,7 @@ class Ip extends Model
         'host_id'
     ];
 
-    public function pool(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function pool(): BelongsTo
     {
         return $this->belongsTo(Pool::class);
     }
@@ -37,7 +38,7 @@ class Ip extends Model
     }
 
     // host
-    public function host(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function host(): BelongsTo
     {
         return $this->belongsTo(Host::class);
     }
