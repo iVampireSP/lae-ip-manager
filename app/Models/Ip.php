@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Ip extends Model
 {
 
+    protected $table = 'ip_address';
+
     protected $fillable = [
         'ip',
         'pool_id',

@@ -11,9 +11,9 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('ips', function (Blueprint $table) {
+        Schema::create('ip_address', function (Blueprint $table) {
             $table->id();
 
             $table->string('ip')->index()->nullable();
@@ -51,8 +51,8 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('ips');
+        Schema::dropIfExists('ip_address');
     }
 };
