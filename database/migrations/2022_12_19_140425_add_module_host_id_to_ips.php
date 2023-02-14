@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('ips', function (Blueprint $table) {
+        Schema::table('ip_address', function (Blueprint $table) {
             //
 
             $table->unsignedBigInteger('module_host_id')->index()->nullable()->after('module_id');

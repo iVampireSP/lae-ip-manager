@@ -13,9 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('ips', function (Blueprint $table) {
-            //
-
+        Schema::table('ip_address', function (Blueprint $table) {
             $table->dropColumn('price');
         });
     }

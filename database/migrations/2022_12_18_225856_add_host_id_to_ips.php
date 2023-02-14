@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('ips', function (Blueprint $table) {
+        Schema::table('ip_address', function (Blueprint $table) {
             // foreign host id (on delete set null)
             $table->unsignedBigInteger('host_id')->index()->nullable()->after('pool_id');
             $table->foreign('host_id')->references('id')->on('hosts')->onDelete('set null');
