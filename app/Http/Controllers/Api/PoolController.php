@@ -17,9 +17,9 @@ class PoolController extends Controller
 
         if ($request->filled('region_id')) {
             $pools->where('region_id', $request->input('region_id'));
-        } else {
-            $pools = $pools->get();
         }
+
+        $pools = $pools->get();
 
         return $this->success($pools);
     }
