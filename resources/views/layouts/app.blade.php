@@ -23,7 +23,7 @@
     <nav class="navbar navbar-expand-md shadow-sm bg-body">
         <div class="container">
             <a class="navbar-brand text-auto" href="{{ route('earnings') }}">
-                {{ config('app.name') }}
+                {{ config('app.display_name') }}
             </a>
             <button class="navbar-toggler text-auto" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
