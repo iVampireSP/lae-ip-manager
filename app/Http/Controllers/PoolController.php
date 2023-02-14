@@ -145,7 +145,7 @@ class PoolController extends Controller
             'nameservers' => $ip['nameservers'],
             'description' => $request->input('description'),
             'type' => $ip['type'],
-            'price' => $request->input('price'),
+            'price' => $request->input('price', 0),
         ]);
 
         return redirect()->route('pools.index')->with('success', '地址池更新成功。');
