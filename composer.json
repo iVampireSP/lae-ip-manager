@@ -15,7 +15,8 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
-        "rlanvin/php-ip": "^3.0"
+        "rlanvin/php-ip": "^3.0",
+      "ext-bcmath": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
