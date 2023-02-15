@@ -25,6 +25,13 @@ class HostController extends Controller
         return $this->success($hosts);
     }
 
+    public function show(Host $ip): JsonResponse
+    {
+        $ip->load('ip');
+
+        return $this->success($ip);
+    }
+
     public function update(Request $request, Host $host): JsonResponse
     {
         $request->validate([
