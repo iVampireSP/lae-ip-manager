@@ -21,6 +21,13 @@ class IpController extends Controller
         return $this->success($ip);
     }
 
+    public function update(Request $request, Ip $ip)
+    {
+        $ip->update($request->all());
+
+        return $this->success($ip);
+    }
+
     public function next(Request $request)
     {
         return Cache::lock('ip.next', 5)->block(5, function () use ($request) {
