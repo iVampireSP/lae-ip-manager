@@ -37,6 +37,12 @@
         </div>
 
         <div class="mb-3">
+            <label for="user_id" class="form-label">哪个用户可以使用 User ID</label>
+            <input type="text" class="form-control" id="user_id" name="user_id"
+                   value="{{ $ip->user_id }}">
+        </div>
+
+        <div class="mb-3">
             <label for="blocked" class="form-label">保留此 IP</label>
             <select class="form-select" id="blocked" name="blocked">
                 <option value="0" {{ $ip->blocked ? '' : 'selected' }}>否</option>

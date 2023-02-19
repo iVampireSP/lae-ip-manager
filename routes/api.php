@@ -1,6 +1,7 @@
 <?php
 
-// use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Remote\Api;
 
 /**
  * Functions
@@ -9,3 +10,4 @@
  * 认证 Guard: api。可以通过 $request->user('api') 获取用户信息。
  */
 
+Route::apiResource('ips', Api\IpController::class)->only('index', 'update', 'show');

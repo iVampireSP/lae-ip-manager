@@ -17,9 +17,9 @@ class IpController extends Controller
      *
      * @param Request $request
      *
-     * @return Application|Factory|View
+     * @return View
      */
-    public function index(Request $request): View|Factory|Application
+    public function index(Request $request): View
     {
         $ip = Ip::query();
 
@@ -40,12 +40,10 @@ class IpController extends Controller
      *
      * @param Ip $ip
      *
-     * @return Application|Factory|View
+     * @return View
      */
-    public function edit(Ip $ip): View|Factory|Application
+    public function edit(Ip $ip): View
     {
-        //
-
         return view('ips.edit', compact('ip'));
     }
 
@@ -59,7 +57,7 @@ class IpController extends Controller
      */
     public function update(Request $request, Ip $ip): RedirectResponse
     {
-        $req = $request->only(['mac', 'hostname', 'description', 'host_id', 'blocked', 'module_id']);
+        $req = $request->only(['mac', 'hostname', 'description', 'host_id', 'blocked', 'module_id', 'user_id']);
 
         $ip->update($req);
 
@@ -83,6 +81,7 @@ class IpController extends Controller
             'host_id' => null,
             'blocked' => false,
             'module_id' => null,
+            'user_id' => null,
         ]);
 
 

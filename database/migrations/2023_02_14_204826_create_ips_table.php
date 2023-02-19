@@ -42,6 +42,9 @@ return new class extends Migration
             $table->string('module_id')->index()->nullable();
             $table->unsignedBigInteger('host_id')->index()->nullable();
 
+            $table->unsignedBigInteger('user_id')->index()->nullable();
+
+
             // position
             $table->unsignedBigInteger('position')->index();
 

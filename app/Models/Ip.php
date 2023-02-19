@@ -22,7 +22,8 @@ class Ip extends Model
         'netmask',
         'cidr',
         'module_id',
-        'host_id'
+        'host_id',
+        'user_id'
     ];
 
     protected $with = [
