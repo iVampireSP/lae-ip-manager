@@ -66,6 +66,12 @@ class IpController extends Controller
 
             return $this->error('Method not allowed.');
         });
+    }
 
+    public function destroy(Ip $ip)
+    {
+        $ip->release();
+
+        return $this->success();
     }
 }

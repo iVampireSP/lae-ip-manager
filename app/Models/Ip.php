@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -45,5 +44,21 @@ class Ip extends Model
     public function scopeAvailable($query)
     {
         return $query->where('blocked', false)->where('host_id', null);
+    }
+
+    public function release(): bool
+    {
+        // 清除多余参数
+        $this->update([
+            'mac' => null,
+            'hostname' => null,
+            'description' => null,
+            'host_id' => null,
+            'blocked' => false,
+            'module_id' => null,
+            'user_id' => null,
+        ]);
+
+        return true;
     }
 }

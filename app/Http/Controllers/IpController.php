@@ -73,17 +73,7 @@ class IpController extends Controller
      */
     public function destroy(Ip $ip): RedirectResponse
     {
-        // 清除多余参数
-        $ip->update([
-            'mac' => null,
-            'hostname' => null,
-            'description' => null,
-            'host_id' => null,
-            'blocked' => false,
-            'module_id' => null,
-            'user_id' => null,
-        ]);
-
+        $ip->release();
 
         return redirect()->back()->with('success', '清除成功。');
     }

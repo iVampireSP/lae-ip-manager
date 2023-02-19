@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::match(['get', 'post'], 'ips/next', [Exports\IpController::class, 'next']);
-Route::apiResource('ips', Exports\IpController::class)->only('index', 'update', 'show');
+Route::apiResource('ips', Exports\IpController::class);
 
 Route::apiResource('pools', Exports\PoolController::class)->only('index', 'show');
 Route::get('regions', Exports\RegionController::class);
