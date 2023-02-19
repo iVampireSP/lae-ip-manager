@@ -23,9 +23,6 @@ return new class extends Migration
 
             $table->enum('type', ['ipv4', 'ipv6', 'ipv6block', 'ipv4block']);
 
-            // price
-            $table->decimal('price', 10, 2)->nullable();
-
             // gateway
             $table->string('gateway')->nullable();
 

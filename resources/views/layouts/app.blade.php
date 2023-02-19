@@ -41,9 +41,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-auto" href="{{ route('users.index') }}">客户</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-auto" href="{{ route('hosts.index') }}">主机</a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-auto" href="{{ route('servers.index') }}">NAT 网关</a>
                         </li>

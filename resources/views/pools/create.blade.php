@@ -26,12 +26,6 @@
                 value="{{ old('description') }}">
         </div>
 
-        <div class="mb-3">
-            <label for="price" class="form-label">价格</label>
-            <input type="text" class="form-control" id="price" name="price"
-                value="{{ old('price') }}">
-        </div>
-
         {{-- 选择可用区 --}}
         <div class="mb-3">
             <label for="region_id" class="form-label">可用区</label>

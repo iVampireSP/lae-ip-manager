@@ -18,8 +18,6 @@ class RegionController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        //
-
         $regions = Region::with('pools');
 
         foreach ($request->only(['id', 'region_id']) as $field) {

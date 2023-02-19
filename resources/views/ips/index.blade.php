@@ -24,14 +24,11 @@
                         @if ($ip->blocked)
                             <span class="badge bg-primary">保留</span>
                         @endif
-                        @if ($ip->host_id)
-                            <span class="badge bg-success">已分配</span>
-                        @endif
                         @if ($ip->module_id)
-                            <span class="badge bg-primary">{{ $ip->module_id }}</span>
+                            <span class="badge bg-primary">分配给模块 ID: {{ $ip->module_id }}</span>
                         @endif
-                        @if ($ip->module_host_id)
-                            <span class="badge bg-secondary">{{ $ip->module_host_id }}</span>
+                        @if ($ip->host_id)
+                            <span class="badge bg-secondary">Host ID: {{ $ip->host_id }}</span>
                         @endif
                     </td>
                     <td>{{ $ip->pool->pool }}</td>

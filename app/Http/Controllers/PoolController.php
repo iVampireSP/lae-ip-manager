@@ -55,7 +55,6 @@ class PoolController extends Controller
             'region_id' => 'required|integer|exists:regions,id',
             'nameservers' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:255',
-            'price' => 'nullable|numeric|min:0'
         ]);
 
         try {
@@ -74,7 +73,6 @@ class PoolController extends Controller
             'nameservers' => $ip['nameservers'],
             'description' => $request->input('description'),
             'type' => $ip['type'],
-            'price' => $request->input('price', 0),
         ]);
 
         return redirect()->route('pools.index')->with('success', '地址池创建成功。');
@@ -126,7 +124,6 @@ class PoolController extends Controller
             'region_id' => 'required|integer|exists:regions,id',
             'nameservers' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:255',
-            'price' => 'required|numeric|min:0'
         ]);
 
         try {
@@ -145,7 +142,6 @@ class PoolController extends Controller
             'nameservers' => $ip['nameservers'],
             'description' => $request->input('description'),
             'type' => $ip['type'],
-            'price' => $request->input('price', 0),
         ]);
 
         return redirect()->route('pools.index')->with('success', '地址池更新成功。');

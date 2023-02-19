@@ -26,12 +26,10 @@ class RegionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Application|Factory|View
+     * @return View
      */
-    public function create(): View|Factory|Application
+    public function create(): View
     {
-        //
-
         return view('regions.create');
     }
 
@@ -44,7 +42,6 @@ class RegionController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
         $request->validate([
             'name' => 'required|string',
             'code' => 'required|string|unique:regions,code',
@@ -63,11 +60,10 @@ class RegionController extends Controller
      *
      * @param Region $region
      *
-     * @return Application|Factory|View
+     * @return View
      */
-    public function edit(Region $region): View|Factory|Application
+    public function edit(Region $region): View
     {
-        //
         return view('regions.edit', compact('region'));
     }
 
@@ -81,8 +77,6 @@ class RegionController extends Controller
      */
     public function update(Request $request, Region $region): RedirectResponse
     {
-        //
-
         $request->validate([
             'name' => 'required|string',
             'code' => 'required|string|unique:regions,code,' . $region->id,

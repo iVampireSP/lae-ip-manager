@@ -14,11 +14,10 @@ class ServerController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return View
      */
-    public function index(): View|Factory|Application
+    public function index(): View
     {
-        //
         $servers = (new Server)->simplePaginate(10);
 
         return view('servers.index', compact('servers'));
@@ -51,11 +50,10 @@ class ServerController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Application|Factory|View
+     * @return View
      */
-    public function create(): View|Factory|Application
+    public function create(): View
     {
-        //
         return view('servers.create');
     }
 
@@ -64,11 +62,10 @@ class ServerController extends Controller
      *
      * @param Server $server
      *
-     * @return Application|Factory|View
+     * @return View
      */
-    public function show(Server $server): View|Factory|Application
+    public function show(Server $server): View
     {
-        //
         return view('servers.show', compact('server'));
     }
 
@@ -77,11 +74,10 @@ class ServerController extends Controller
      *
      * @param Server $server
      *
-     * @return Application|Factory|View
+     * @return View
      */
-    public function edit(Server $server): View|Factory|Application
+    public function edit(Server $server): View
     {
-        //
         return view('servers.edit', compact('server'));
     }
 
@@ -95,7 +91,6 @@ class ServerController extends Controller
      */
     public function update(Request $request, Server $server): RedirectResponse
     {
-        //
         // $request->validate([
         //     'name' => 'required',
         //     'fqdn' => 'required',
@@ -116,7 +111,6 @@ class ServerController extends Controller
      */
     public function destroy(Server $server): RedirectResponse
     {
-        //
         $server->delete();
 
         return redirect()->route('servers.index')->with('success', '服务器成功删除。');

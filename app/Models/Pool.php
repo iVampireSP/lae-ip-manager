@@ -21,14 +21,12 @@ class Pool extends Model
         'nameservers',
         'description',
         'parent_id',
-        'price',
         'region_id'
     ];
 
 
     protected $casts = [
         'nameservers' => 'array',
-        'price' => 'decimal:2',
     ];
 
     public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo

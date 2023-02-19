@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ip;
-use App\Actions\HostAction;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -60,8 +59,7 @@ class IpController extends Controller
      */
     public function update(Request $request, Ip $ip): RedirectResponse
     {
-        //
-        $req = $request->only(['mac', 'hostname', 'description', 'price', 'blocked']);
+        $req = $request->only(['mac', 'hostname', 'description', 'host_id', 'blocked', 'module_id']);
 
         $ip->update($req);
 
@@ -77,21 +75,17 @@ class IpController extends Controller
      */
     public function destroy(Ip $ip): RedirectResponse
     {
-        if (!$ip->host_id) {
-            return redirect()->back()->with('error', 'IP 地址未绑定主机。');
-        }
+        // 清除多余参数
+        $ip->update([
+            'mac' => null,
+            'hostname' => null,
+            'description' => null,
+            'host_id' => null,
+            'blocked' => false,
+            'module_id' => null,
+        ]);
 
-        $ip->load('host');
 
-        // 具体删除逻辑
-        $hostAction = new HostAction();
-
-        try {
-            $hostAction->destroy($ip->host);
-        } catch (HostActionException $e) {
-            $this->error($e->getMessage());
-        }
-
-        return redirect()->back()->with('success', '正在解绑 IP 地址。');
+        return redirect()->back()->with('success', '清除成功。');
     }
 }

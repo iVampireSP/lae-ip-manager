@@ -22,8 +22,11 @@ class Ip extends Model
         'netmask',
         'cidr',
         'module_id',
-        'module_host_id',
         'host_id'
+    ];
+
+    protected $with = [
+        'pool'
     ];
 
     public function pool(): BelongsTo
@@ -37,9 +40,9 @@ class Ip extends Model
         return $value ? gmp_strval($value, 16) : null;
     }
 
-    // host
-    public function host(): BelongsTo
+    // where unused and not blocked
+    public function scopeAvailable($query)
     {
-        return $this->belongsTo(Host::class);
+        return $query->where('blocked', false)->where('host_id', null);
     }
 }

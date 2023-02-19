@@ -16,10 +16,8 @@ class PoolController extends Controller
      *
      * @return JsonResponse
      */
-    public function __invoke(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        //
-
         $pools = Pool::with('region');
 
         foreach ($request->only(['id', 'region_id']) as $field) {
@@ -31,5 +29,12 @@ class PoolController extends Controller
         $pools = $pools->get();
 
         return $this->success($pools);
+    }
+
+    public function show(Pool $pool): JsonResponse
+    {
+        $pool->load('region');
+
+        return $this->success($pool);
     }
 }

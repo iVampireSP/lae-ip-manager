@@ -1,9 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\HostController;
-use App\Http\Controllers\Api\PoolController;
-use App\Http\Controllers\Api\RegionController;
-use Illuminate\Support\Facades\Route;
+// use Illuminate\Support\Facades\Route;
 
 /**
  * Functions
@@ -12,6 +9,3 @@ use Illuminate\Support\Facades\Route;
  * 认证 Guard: api。可以通过 $request->user('api') 获取用户信息。
  */
 
-Route::apiResource('hosts', HostController::class)->except(['show', 'update']);
-Route::get('pools', PoolController::class);
-Route::get('regions', RegionController::class);

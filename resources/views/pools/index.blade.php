@@ -11,7 +11,6 @@
                 <th>网段</th>
                 <th>子网掩码</th>
                 <th>版本</th>
-                <th>继承价格</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -24,7 +23,6 @@
                     <td>{{ $pool->pool }}</td>
                     <td>{{ $pool->netmask }}</td>
                     <td>{{ $pool->type }}</td>
-                    <td>{{ $pool->price ?? 0 }} 元</td>
                     <td>
                         <a href="{{ route('pools.edit', $pool->id) }}">编辑</a>
                         <a href="{{ route('ips.index') }}?pool_id={{ $pool->id }}">IP 列表</a>
